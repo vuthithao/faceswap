@@ -202,7 +202,7 @@ def check_points(img,points):
 def face_swap(src_face, dst_face, src_points, dst_points, dst_shape, dst_img, args, end=48):
     h, w = dst_face.shape[:2]
     ## 3d warp
-    warped_src_face = warp_image_3d(src_face, src_points[48:65], dst_points[48:65], (h, w))
+    warped_src_face = warp_image_3d(src_face, src_points[:end], dst_points[:end], (h, w))
     # print('warped_src_face')
     # cv2.imwrite('warped_src_face.png', warped_src_face)
     ## Mask for blending
@@ -225,7 +225,7 @@ def face_swap(src_face, dst_face, src_points, dst_points, dst_shape, dst_img, ar
         warped_src_face = correct_colours(dst_face_masked, warped_src_face, dst_points)
     ## 2d warp
     if args.warp_2d:
-        unwarped_src_face = warp_image_3d(warped_src_face, dst_points[48:65], src_points[48:65], src_face.shape[:2])
+        unwarped_src_face = warp_image_3d(warped_src_face, dst_points[:end], src_points[:end], src_face.shape[:2])
         warped_src_face = warp_image_2d(unwarped_src_face, transformation_from_points(dst_points, src_points),
                                         (h, w, 3))
 
